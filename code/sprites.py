@@ -108,11 +108,11 @@ class Obstacles(pygame.sprite.Sprite):
         self.mask = pygame.mask.from_surface(self.image)
 
         if orientation == 'up':
-            y = WINDOW_HEIGHT * 1.4 + randrange(-70, 120, 30)
+            y = WINDOW_HEIGHT * 1.4 + randrange(-70, 120, 40)
             self.rect = self.image.get_rect(midbottom = (x,y))
 
         elif orientation == 'down':
-            y = -WINDOW_HEIGHT / 2 + randrange(-70, 120, 30)
+            y = -WINDOW_HEIGHT / 2 + randrange(-70, 120, 40)
             self.image = pygame.transform.flip(self.image, False, True)
 
             self.rect = self.image.get_rect(midtop = (x,y))
