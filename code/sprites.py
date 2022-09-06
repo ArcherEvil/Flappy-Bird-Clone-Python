@@ -5,6 +5,8 @@ from random import choice, randint, randrange
 class BG(pygame.sprite.Sprite):
     def __init__(self, groups, scale_factor):
         super().__init__(groups)
+
+        self.sprite_type = 'BG'
         bg_image = pygame.image.load("../graphics/environment/background.png").convert()
         
         resolution = (pygame.image.load("../graphics/environment/background.png").get_width(), 
@@ -30,6 +32,7 @@ class BG(pygame.sprite.Sprite):
 
 class Ground(pygame.sprite.Sprite):
     def __init__(self, groups, scale_factor):
+        self.sprite_type = 'Ground'
         super().__init__(groups)
         ground_surf = pygame.image.load('../graphics/environment/ground.png').convert_alpha()
         self.image = pygame.transform.scale(ground_surf, pygame.math.Vector2(ground_surf.get_size()) * scale_factor)
@@ -68,6 +71,12 @@ class Player(pygame.sprite.Sprite):
         # mask
 
         self.mask = pygame.mask.from_surface(self.image)
+
+
+        # sound
+
+        self.jump_sound = pygame.mixer.Sound('../sounds/jump.mp3')
+        self.jump_sound.set_volume(0.05)
     
     def import_frames(self, scale_factor):
         self.frames = []
@@ -84,6 +93,7 @@ class Player(pygame.sprite.Sprite):
             self.image = self.frames[0]
 
     def jump(self):
+        self.jump_sound.play()
         self.direction = -500
         self.image = self.frames[1]
 
@@ -94,6 +104,8 @@ class Player(pygame.sprite.Sprite):
 class Obstacles(pygame.sprite.Sprite):
     def __init__(self, groups, scale_factor):
         super().__init__(groups)
+        
+        self.sprite_type = 'Obstacles'
 
         color = randint(0,9)
 
@@ -125,4 +137,20 @@ class Obstacles(pygame.sprite.Sprite):
         if self.rect.right <= -100:
             self.kill()
 
-
+class Music():
+    def Play(self):
+        self.random = randint(0,4)
+        self.music = pygame.mixer.Sound(f'../sounds/{self.random}.mp3')
+        if self.random == 0:
+            self.music.set_volume(0.03)
+        elif self.random == 1:
+            self.music.set_volume(0.05)
+        elif self.random == 2:
+            self.music.set_volume(0.1)
+        elif self.random == 3:
+            self.music.set_volume(0.1)
+        elif self.random == 4:
+            self.music.set_volume(0.1)
+        self.music.play(loops = -1)
+    def Stop(self):
+        self.music.stop()
